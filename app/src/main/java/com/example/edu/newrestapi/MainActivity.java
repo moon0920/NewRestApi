@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     String weather;
-    TextView textViewResult;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        TextView textViewResult = findViewById(R.id.textViewResult);
         OpenWeatherAPITask task = new OpenWeatherAPITask();
         try {
             weather = task.execute("London").get();
@@ -43,26 +44,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
     class OpenWeatherAPITask extends AsyncTask<String, Void, String>{
-
+        String weatherreturn;
         @Override
         protected String doInBackground(String... params) {
             String id = params[0];
-            String urlString = "http://api.openweathermap.org/data/2.5/weather?q=London=13a6b9ddf0f31e46b33f160c1b8862b5";
+            String urlString = "http://api.openweathermap.org/data/2.5/weather"+"?q="+id+ "&appid=13a6b9ddf0f31e46b33f160c1b8862b5";
             try {
                 URL url = new URL(urlString);
                 HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
                 InputStream in = urlConnection.getInputStream();
                 byte[] buffer = new byte[1000];
-                weather = String.valueOf(in.read(buffer));
+                in.read(buffer);
+                weatherreturn = new String(buffer) ;
 
            }
            catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-            catch (IOException e) {
+            catch (Exception e) {
                 e.printStackTrace();
             }
-            return weather;
+            return weatherreturn;
         }
     }
 }
