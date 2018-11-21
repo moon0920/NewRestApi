@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">NewRestApi</string>
+    <string name="btnSeoul">Result Seoul Temperature</string>
+    <string name="btnLondon">Result London Temperature</string>
+</resources>
